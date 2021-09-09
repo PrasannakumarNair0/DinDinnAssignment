@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
     android:id="@+id/item_layout"
-    android:layout_marginRight="5dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/tv_orderNo"
@@ -13,62 +14,67 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/tv_time"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/tv_orderNo"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_orderNo" />
 
     <TextView
         android:id="@+id/tv_auto_reject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="auto reject"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="10dp"
+        android:text="Auto reject"
         app:layout_constraintRight_toLeftOf="@+id/tv_timer"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
         android:text="time"
+        android:gravity="center_horizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ProgressBar
         android:id="@+id/progressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
-        android:max="100"
-        android:progress="0"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_timer"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_timer" />
+
     <Button
         android:id="@+id/btn_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Accept"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/progressbar" />
+
     <View
         android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/btn_accept"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title4" />
+
     <TextView
         android:id="@+id/tv_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1 Nasi lemak"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_accept" />
 
     <TextView
         android:id="@+id/tv_title2"
@@ -76,19 +82,21 @@
         android:layout_height="wrap_content"
         android:text="protein"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title1"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_title1" />
+
     <TextView
         android:id="@+id/tv_title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1 almond"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title2"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_title2" />
+
     <TextView
         android:id="@+id/tv_title4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="more egg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title3"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_title3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

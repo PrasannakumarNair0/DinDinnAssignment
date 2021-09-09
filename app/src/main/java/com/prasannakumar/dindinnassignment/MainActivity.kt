@@ -58,19 +58,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         listAdapter = FoodListAdapter(arrayListOf())
-        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
+        val linearLayoutManager = LinearLayoutManager(this)
         binding.scrollView.albumList.layoutManager = linearLayoutManager
         binding.scrollView.albumList.adapter = listAdapter
     }
 
     private fun getFoodData(foodObj: List<OrderList>) {
         Log.d("ABC", "getFoodData: ${foodObj} ")
-
-        val displayMetrics = DisplayMetrics()
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        val displayWidth = (displayMetrics.widthPixels / 3)
         listAdapter.apply {
-            addItem(foodObj, displayWidth)
+            addItem(foodObj)
             notifyDataSetChanged()
         }
 
