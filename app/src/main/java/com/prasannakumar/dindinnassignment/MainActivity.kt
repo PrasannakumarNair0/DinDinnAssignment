@@ -1,7 +1,6 @@
 package com.prasannakumar.dindinnassignment
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +13,15 @@ import com.prasannakumar.dindinnassignment.dataClass.OrderList
 import com.prasannakumar.dindinnassignment.databinding.ActivityMainBinding
 import com.prasannakumar.dindinnassignment.models.MainViewModel
 import com.prasannakumar.dindinnassignment.models.ViewModelFactory
+import com.prasannakumar.dindinnassignment.utils.CountdownRunnable
 import com.prasannakumar.dindinnassignment.utils.Status
+import java.util.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),FoodListAdapter.AcceptBtnClickListener, CountdownRunnable.RemoveExpiredViewListener{
     private lateinit var viewModel: MainViewModel
     lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: FoodListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         listAdapter = FoodListAdapter(arrayListOf())
+        listAdapter.onItemClickListener=this
         val linearLayoutManager = LinearLayoutManager(this)
         binding.scrollView.albumList.layoutManager = linearLayoutManager
         binding.scrollView.albumList.adapter = listAdapter
@@ -70,5 +73,15 @@ class MainActivity : AppCompatActivity() {
             notifyDataSetChanged()
         }
 
+    }
+
+    override fun removeItem(users: ArrayList<OrderList>, itemView: Int, tag: Any) {
+        Log.d("ABC", "removeItem: called is coming")
+        listAdapter.removeItem(users,itemView,tag)
+
+    }
+
+    override fun removeView(tag: Any, pos: Int) {
+        listAdapter.removeView(tag,pos)
     }
 }
