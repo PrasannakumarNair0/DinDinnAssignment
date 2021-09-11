@@ -5,10 +5,11 @@ import com.prasannakumar.dindinnassignment.apis.MyAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitBuilder {
+//had to create another builder because mockAPI allows only one free api to built, in real scenarios this issue will not come
+object RetrofitBuilderForIngredient {
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.ORDER_URL)
+            .baseUrl(BuildConfig.INGREDIENT_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build() //Doesn't require the adapter
     }
@@ -16,7 +17,7 @@ object RetrofitBuilder {
     val apiService: MyAPI = getRetrofit().create(MyAPI::class.java)
 
     class ApiHelper(private val apiService: MyAPI) {
-        suspend fun getOrderDetails()=apiService.getOrderList()
+        suspend fun getIngredient() = apiService.getIngredient()
     }
 
 }

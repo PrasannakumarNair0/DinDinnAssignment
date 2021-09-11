@@ -14,10 +14,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-       // buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
-        buildConfigField("String", "BASE_URL", "\"https://6138a75c163b56001703a024.mockapi.io/foodOrder/\"")
-        buildConfigField("String", "ALBUM_ENDPOINT_URL", "\"https://jsonplaceholder.typicode.com/albums\"")
-        buildConfigField("String", "ALBUM_ART_ENDPOINT_URL", "\"https://jsonplaceholder.typicode.com/photos\"")
+        buildConfigField("String", "INGREDIENT_URL", "\"https://613c7d7a270b96001798b165.mockapi.io/category_id/\"")
+        buildConfigField("String", "ORDER_URL", "\"https://6138a75c163b56001703a024.mockapi.io/foodOrder/\"")
+
     }
 
     buildTypes {
@@ -57,9 +56,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
 
 
-    api "org.koin:koin-android:$koinVersion"
-    api "org.koin:koin-androidx-viewmodel:$koinVersion"
-
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retroFit"
     implementation "com.squareup.retrofit2:converter-gson:$retroFit"
@@ -79,6 +75,10 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_ext"
     // Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    //Navgraph
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
 
     testImplementation 'junit:junit:4.13'

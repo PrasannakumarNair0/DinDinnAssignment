@@ -15,7 +15,7 @@ buildscript {
         // in the individual module build.gradle files
     }
     ext {
-        koinVersion = '2.1.5'
+        nav_version = '2.3.1'
         retroFit = '2.6.0'
         gson = '2.8.5'
         okhttp3 = '3.12.0'

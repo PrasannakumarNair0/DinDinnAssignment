@@ -21,8 +21,8 @@ private const val SIMPLE_DATE_FORMAT="hh:mm a"
 class FoodListAdapter(private val users: ArrayList<OrderList>) :
     RecyclerView.Adapter<FoodListAdapter.AlbumViewHolder>() {
     var hashMapHandler=HashMap<CountdownRunnable,Handler>()
-     var onItemClickListener: AcceptBtnClickListener? = null
-    var onViewRemoveExpiredViewListener:CountdownRunnable.RemoveExpiredViewListener?=null
+     var onItemClickListener: ItemClickListener? = null
+    var onViewRunnableListener:CountdownRunnable.RunnableListener?=null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder =
@@ -33,7 +33,7 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
     override fun getItemCount(): Int = users.size
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        holder.bind(users[position],users,onItemClickListener,hashMapHandler,onViewRemoveExpiredViewListener)
+        holder.bind(users[position],users,onItemClickListener,hashMapHandler,onViewRunnableListener)
 
     }
 
@@ -42,35 +42,39 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
 
 
     class AlbumViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.tv_orderNo)
-        val time: TextView = itemView.findViewById(R.id.tv_time)
-        val foodNm: TextView = itemView.findViewById(R.id.tv_title1)
-        val addOnNm: TextView = itemView.findViewById(R.id.tv_title3)
-        val timerHolder: TextView = itemView.findViewById(R.id.tv_timer)
-        val btnAccept: Button=itemView.findViewById(R.id.btn_accept)
-        val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
+
 
         fun bind(
             foodObj: OrderList,
             users: ArrayList<OrderList>,
-            onItemClickListener: AcceptBtnClickListener?,
+            onItemClickListener: ItemClickListener?,
             hashMapHandler: HashMap<CountdownRunnable, Handler>,
-            onViewRemoveExpiredViewListener: CountdownRunnable.RemoveExpiredViewListener?
+            onViewRunnableListener: CountdownRunnable.RunnableListener?
         ) {
             itemView.apply {
                 for (item in foodObj.data) {
-                    Log.d("ABC", "addon title: ${item.title}")
+                    val title: TextView = itemView.findViewById(R.id.tv_orderNo)
+                    val time: TextView = itemView.findViewById(R.id.tv_time)
+                    val foodNm: TextView = itemView.findViewById(R.id.tv_title1)
+                    val addOnNm: TextView = itemView.findViewById(R.id.tv_title3)
+                    val timerHolder: TextView = itemView.findViewById(R.id.tv_timer)
+                    val btnAccept: Button=itemView.findViewById(R.id.btn_accept)
+                    val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
                     val sdf=getSimpleDate(API_DATE_FORMAT)
                     val parsedDate = sdf.parse(item.created_at)
                     val localDateTime = sdf.parse(item.expired_at)
                     val alertTime = sdf.parse(item.alerted_at)
                     val totTime = getTime(parsedDate, localDateTime)
                     val print = getSimpleDate(SIMPLE_DATE_FORMAT)
+                    itemView.setOnClickListener(View.OnClickListener {
+                        onItemClickListener!!.itemClicked()
+                    })
                     btnAccept.setOnClickListener(View.OnClickListener {
                         onItemClickListener!!.removeItem(users,adapterPosition,timerHolder.getTag())
                     })
                     btnAccept.tag=adapterPosition
-                    title.text = item.id.toString()
+                   // title.text = item.id.toString()
+                    title.text = adapterPosition.toString()
                     foodNm.text=item.quantity.toString()+" "+item.title
                     addOnNm.text=item.addon.get(0).quantity.toString()+" "+item.addon.get(0).title
 
@@ -86,8 +90,17 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
                             totTime,
                             getTime(parsedDate, alertTime),
                             progressBar,
-                            btnAccept,onViewRemoveExpiredViewListener
+                            btnAccept,onViewRunnableListener
                         )
+                        /*val countdownRunnable = CountdownRunnable(
+                            handler,
+                            timerHolder,
+                            (60000*(adapterPosition+1).toLong()),
+                            (30000*(adapterPosition+1).toLong()),
+                            progressBar,
+                            btnAccept,
+                            onViewRunnableListener
+                        )*/
                         countdownRunnable.addObj(countdownRunnable)
                         countdownRunnable.start()
                         countdownRunnable.addHandler(handler)
@@ -97,18 +110,6 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
 
 
                 }
-
-                /* val title: TextView = itemView.findViewById(R.id.title)
-                 val thumbnail: ImageView = itemView.findViewById(R.id.album_art)
-                 title.text = foodObj.title
-                 Glide.with(itemView)
-                     .load(foodObj.url)
-                     .centerCrop()
-                     .placeholder(R.drawable.monkey)
-                     .error(R.drawable.ic_broken_image)
-                     .fallback(R.drawable.ic_no_image)
-                     .transform(CircleCrop())
-                     .into(thumbnail)*/
             }
         }
 
@@ -149,8 +150,9 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
             addAll(foodObj)
         }
         }
-    interface  AcceptBtnClickListener {
+    interface  ItemClickListener {
         fun removeItem(users: ArrayList<OrderList>, itemView: Int, tag: Any)
+        fun itemClicked()
     }
     fun removeItem(users: ArrayList<OrderList>, itemView: Int, tag: Any) {
         this.users.apply {
