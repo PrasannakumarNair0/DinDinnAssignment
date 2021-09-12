@@ -1,4 +1,4 @@
-package com.prasannakumar.dindinnassignment
+package com.prasannakumar.dindinnassignment.activities
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,11 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
+import com.prasannakumar.dindinnassignment.R
 import com.prasannakumar.dindinnassignment.adapters.TabAdapter
 import com.prasannakumar.dindinnassignment.data.api.RetrofitBuilderForIngredient
 import com.prasannakumar.dindinnassignment.dataClass.Ingredient

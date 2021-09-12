@@ -8,13 +8,12 @@ import android.widget.TextView
 private const val EXPIRED = "Expired"
 
 class CountdownRunnable() : Runnable {
-    private val DELAY = 60000
+    private val DELAY = 1000
     private var millisUntilFinished: Long = 600000
     private var holder: TextView? = null
     private var handler: Handler? = null
     private var progressBar: ProgressBar? = null
     private var acceptBtnHolder: Button? = null
-    private var list = ArrayList<TextView>()
     private var handlerList = ArrayList<Handler>()
     var time = "0"
     var alertTime = ArrayList<String>()
@@ -37,9 +36,8 @@ class CountdownRunnable() : Runnable {
         this.acceptBtnHolder = acceptBtn
         this.progressBar = progressBar
         this.listener = listener
-        list.add(this.holder!!)
         this.alertTime.add(getTime(alertTime))
-        hashMap.put(this.holder!!, getTime(alertTime))
+        hashMap[this.holder!!] = getTime(alertTime)
         this.progressBar!!.max = millisUntilFinished.toInt()
     }
 
@@ -69,12 +67,12 @@ class CountdownRunnable() : Runnable {
 
     override fun run() {
         /* do what you need to do */
+
         val seconds = millisUntilFinished / 1000
         val minutes = seconds / 60
         time =
             "" + minutes % 60 + ":" + seconds % 60
-
-        val alertTime = hashMap.get(holder)
+        val alertTime = hashMap[holder]
         if (alertTime.equals(time)) {
             if (listener != null) {
                 listener!!.ringBell()

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DinDinnAssignment">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.OrderListActivity"
             android:exported="true"
             android:label="Order List">
             <intent-filter>
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TabActivity"
+            android:name=".activities.TabActivity"
             android:exported="true"
             android:label="Tab List"
             android:windowSoftInputMode="adjustResize" />

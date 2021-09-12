@@ -1,13 +1,13 @@
-package com.prasannakumar.dindinnassignment
+package com.prasannakumar.dindinnassignment.activities
 
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.prasannakumar.dindinnassignment.R
 import com.prasannakumar.dindinnassignment.adapters.FoodListAdapter
 import com.prasannakumar.dindinnassignment.data.api.RetrofitBuilder
 import com.prasannakumar.dindinnassignment.dataClass.OrderList
@@ -16,14 +16,14 @@ import com.prasannakumar.dindinnassignment.models.MainViewModel
 import com.prasannakumar.dindinnassignment.models.ViewModelFactory
 import com.prasannakumar.dindinnassignment.utils.CountdownRunnable
 import com.prasannakumar.dindinnassignment.utils.Status
-import java.util.*
 
 
-class MainActivity : AppCompatActivity(), FoodListAdapter.ItemClickListener,
+class OrderListActivity : AppCompatActivity(), FoodListAdapter.ItemClickListener,
     CountdownRunnable.RunnableListener {
     private lateinit var viewModel: MainViewModel
     lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: FoodListAdapter
+    private var runnableList=HashMap<Any,CountdownRunnable>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,12 +92,11 @@ class MainActivity : AppCompatActivity(), FoodListAdapter.ItemClickListener,
     }
 
     override fun ringBell() {
-        var mp = MediaPlayer.create(this, R.raw.alert)
-        mp.setOnPreparedListener {  mp.start() }
+        val mp = MediaPlayer.create(this, R.raw.alert)
+        mp.setOnPreparedListener { mp.start() }
         mp.setOnCompletionListener {
             mp.reset()
             mp.release()
-            mp = null
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.prasannakumar.dindinnassignment
+package com.prasannakumar.dindinnassignment.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

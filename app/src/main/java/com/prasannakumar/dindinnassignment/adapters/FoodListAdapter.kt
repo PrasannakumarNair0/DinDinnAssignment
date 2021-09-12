@@ -27,6 +27,7 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
     var onViewRunnableListener: CountdownRunnable.RunnableListener? = null
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder =
         AlbumViewHolder(
             parent.inflater().inflate(R.layout.list_item, parent, false),
@@ -42,7 +43,6 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
             hashMapHandler,
             onViewRunnableListener
         )
-
     }
 
 
@@ -60,14 +60,15 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
             onViewRunnableListener: CountdownRunnable.RunnableListener?
         ) {
             itemView.apply {
+                val title: TextView = itemView.findViewById(R.id.tv_orderNo)
+                val time: TextView = itemView.findViewById(R.id.tv_time)
+                val foodNm: TextView = itemView.findViewById(R.id.tv_title1)
+                val addOnNm: TextView = itemView.findViewById(R.id.tv_title3)
+                val timerHolder: TextView = itemView.findViewById(R.id.tv_timer)
+                val btnAccept: Button = itemView.findViewById(R.id.btn_accept)
+                val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
                 for (item in foodObj.data) {
-                    val title: TextView = itemView.findViewById(R.id.tv_orderNo)
-                    val time: TextView = itemView.findViewById(R.id.tv_time)
-                    val foodNm: TextView = itemView.findViewById(R.id.tv_title1)
-                    val addOnNm: TextView = itemView.findViewById(R.id.tv_title3)
-                    val timerHolder: TextView = itemView.findViewById(R.id.tv_timer)
-                    val btnAccept: Button = itemView.findViewById(R.id.btn_accept)
-                    val progressBar: ProgressBar = itemView.findViewById(R.id.progressbar)
+
                     val sdf = getSimpleDate(API_DATE_FORMAT)
                     val parsedDate = sdf.parse(item.created_at)
                     val localDateTime = sdf.parse(item.expired_at)
@@ -81,8 +82,9 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
                         onItemClickListener!!.removeItem(
                             users,
                             adapterPosition,
-                            timerHolder.getTag()
+                            timerHolder.tag
                         )
+
                     }
                     btnAccept.tag = adapterPosition
                     // title.text = item.id.toString()
@@ -93,8 +95,8 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
 
                     time.text = AT + print.format(parsedDate)
                     if (timerHolder.tag != null) {
-                        val downTimer = timerHolder.tag as CountdownRunnable
-                        downTimer.checkIfTimerIsExpired(downTimer)
+                       // val downTimer = timerHolder.tag as CountdownRunnable
+                       // downTimer.checkIfTimerIsExpired(downTimer)
                     } else {
                         val handler = Handler()
                         val countdownRunnable = CountdownRunnable(
@@ -105,7 +107,7 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
                             progressBar,
                             btnAccept, onViewRunnableListener
                         )
-                        /*val countdownRunnable = CountdownRunnable(
+                    /*    val countdownRunnable = CountdownRunnable(
                             handler,
                             timerHolder,
                             (60000*(adapterPosition+1).toLong()),
@@ -116,9 +118,10 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
                         )*/
                         countdownRunnable.addObj(countdownRunnable)
                         countdownRunnable.start()
+
                         countdownRunnable.addHandler(handler)
                         timerHolder.tag = countdownRunnable
-                        hashMapHandler.put(timerHolder.tag as CountdownRunnable, handler)
+                        hashMapHandler[timerHolder.tag as CountdownRunnable] = handler
                     }
 
 
@@ -187,7 +190,7 @@ class FoodListAdapter(private val users: ArrayList<OrderList>) :
     fun removeView(tag: Any, position: Int) {
         this.users.apply {
             val downTimer = tag as CountdownRunnable
-            val handler = hashMapHandler.get(tag)
+            val handler = hashMapHandler[tag]
             downTimer.cancel()
             handler!!.removeCallbacks(downTimer)
             users.removeAt(position)
