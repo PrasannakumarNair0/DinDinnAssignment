@@ -1,7 +1,6 @@
 package com.prasannakumar.dindinnassignment.utils
 
 import android.os.Handler
-import android.util.Log
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -9,7 +8,6 @@ import android.widget.TextView
 private const val EXPIRED = "Expired"
 
 class CountdownRunnable() : Runnable {
-    private val TAG = "ABC"
     private val DELAY = 60000
     private var millisUntilFinished: Long = 600000
     private var holder: TextView? = null
@@ -78,57 +76,37 @@ class CountdownRunnable() : Runnable {
 
         val alertTime = hashMap.get(holder)
         if (alertTime.equals(time)) {
-            Log.d("ABC", "$alertTime ::$time ")
-            Log.d("ABC", "Alert alarm on")
             if (listener != null) {
                 listener!!.ringBell()
-            } else {
-                Log.d(TAG, "listener is null: ")
             }
 
         }
         if (time.equals("0:0")) {
-            Log.d(TAG, "Timer EXPIRED: ")
             holder!!.text = time
             progressBar!!.progress = millisUntilFinished.toInt()
             acceptBtnHolder!!.text = EXPIRED
-            val countdownRunnable=countdownRunnableList.get(0)
+            val countdownRunnable = countdownRunnableList.get(0)
             countdownRunnable.cancel()
             handler!!.removeCallbacks(countdownRunnableList.get(0))
-            /*
-            val pos = acceptBtnHolder!!.tag as Int
-            if (listener != null) {
-                listener!!.removeView(countdownRunnableList.get(0), pos)
-            } else {
-                Log.d(TAG, "listener is null: ")
-            }*/
-
         }
-        if(!acceptBtnHolder!!.text.equals(EXPIRED)){
+        if (!acceptBtnHolder!!.text.equals(EXPIRED)) {
+
             holder!!.text = time
             progressBar!!.progress = millisUntilFinished.toInt()
             millisUntilFinished -= DELAY
-            /* and here comes the "trick" */
 
             handler?.postDelayed(this, DELAY.toLong())
-        }else
-        {
-            Log.d(TAG, "Expired")
         }
-
 
 
     }
 
     fun checkIfTimerIsExpired(downTimer: CountdownRunnable) {
         if (time.equals("0:0")) {
-          downTimer.cancel()
+            downTimer.cancel()
         }
     }
 
-    /*fun removeFromList(pos:Int){
-        list.removeAt(pos)
-    }*/
     interface RunnableListener {
         fun removeView(tag: Any, pos: Int)
         fun ringBell()

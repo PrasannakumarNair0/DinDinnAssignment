@@ -1,12 +1,10 @@
 package com.prasannakumar.dindinnassignment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,22 +14,20 @@ import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
 import com.prasannakumar.dindinnassignment.adapters.TabAdapter
 import com.prasannakumar.dindinnassignment.data.api.RetrofitBuilderForIngredient
 import com.prasannakumar.dindinnassignment.dataClass.Ingredient
-import com.prasannakumar.dindinnassignment.dataClass.ProductList
 import com.prasannakumar.dindinnassignment.databinding.TabMainLayoutBinding
 import com.prasannakumar.dindinnassignment.models.IngredientViewModel
 import com.prasannakumar.dindinnassignment.models.SearchViewModel
 import com.prasannakumar.dindinnassignment.models.ViewModelFactoryForIngredient
 import com.prasannakumar.dindinnassignment.utils.Status
 
-const val HINT="Type name"
+const val HINT = "Search of an Item"
+
 class TabActivity : AppCompatActivity() {
-    private val TAG = "ABC"
     private lateinit var binding: TabMainLayoutBinding
     private lateinit var adapter: TabAdapter
     private lateinit var viewModel: IngredientViewModel
     private lateinit var searchViewModel: SearchViewModel
-    private var searchView: SearchView?=null
-    private var filteredList = ArrayList<ProductList>()
+    private var searchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +42,8 @@ class TabActivity : AppCompatActivity() {
         inflater.inflate(R.menu.search_menu, menu)
 
         val searchItem: MenuItem = menu!!.findItem(R.id.actionSearch)
-         searchView = searchItem.actionView as SearchView
-        searchView!!.queryHint=HINT
+        searchView = searchItem.actionView as SearchView
+        searchView!!.queryHint = HINT
 
         searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -55,7 +51,7 @@ class TabActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                searchViewModel.setQuery(newText);
+                searchViewModel.setQuery(newText)
                 return false
             }
         })
@@ -63,21 +59,19 @@ class TabActivity : AppCompatActivity() {
     }
 
 
-
-    private fun setupUI(users: List<Ingredient>) {
-        for (item in users) {
+    private fun setupUI(ingredientList: List<Ingredient>) {
+        for (item in ingredientList) {
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(item.tabTitle))
         }
-        adapter = TabAdapter(supportFragmentManager, binding.tabLayout.tabCount, users)
-        binding.viewPager.setAdapter(adapter)
-        binding.viewPager.addOnPageChangeListener(TabLayoutOnPageChangeListener(binding.tabLayout))
+        adapter = TabAdapter(supportFragmentManager, binding.tabLayout.tabCount, ingredientList)
+        binding.viewPager.adapter = adapter
         binding.viewPager.addOnPageChangeListener(TabLayoutOnPageChangeListener(binding.tabLayout))
         binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.viewPager.setCurrentItem(tab.position)
+                binding.viewPager.currentItem = tab.position
 
                 searchViewModel.setQuery("")
-                searchView?.setQuery("", false);
+                searchView?.setQuery("", false)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -91,8 +85,8 @@ class TabActivity : AppCompatActivity() {
             ViewModelFactoryForIngredient(
                 RetrofitBuilderForIngredient.ApiHelper(RetrofitBuilderForIngredient.apiService)
             )
-        ).get(IngredientViewModel::class.java)
-        viewModel.getIngredientDetails().observe(this, Observer {
+        )[IngredientViewModel::class.java]
+        viewModel.getIngredientDetails().observe(this, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {

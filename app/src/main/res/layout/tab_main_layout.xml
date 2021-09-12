@@ -14,10 +14,11 @@
         android:minHeight="?actionBarSize"
         app:tabGravity="fill"
         app:tabMode="scrollable"
+        app:tabTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="#1db995">
+        android:background="@color/cyan">
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager

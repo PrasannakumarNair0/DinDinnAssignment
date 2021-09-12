@@ -3,7 +3,6 @@
     package="com.prasannakumar.dindinnassignment">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,8 +14,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:label="Order List" >
+            android:label="Order List">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +24,8 @@
         <activity
             android:name=".TabActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:label="Tab List" />
+            android:label="Tab List"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

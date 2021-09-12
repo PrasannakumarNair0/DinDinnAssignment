@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_orderNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tv_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -21,7 +23,7 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_orderNo" />
 
@@ -29,8 +31,9 @@
         android:id="@+id/tv_auto_reject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:text="Auto reject"
+        android:layout_marginEnd="10dp"
+        android:text="@string/auto_reject"
+        android:textColor="@color/black"
         app:layout_constraintRight_toLeftOf="@+id/tv_timer"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +41,8 @@
         android:id="@+id/tv_timer"
         android:layout_width="50dp"
         android:layout_height="30dp"
-        android:text="time"
+
+        android:textColor="@color/black"
         android:gravity="center_horizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,22 +61,19 @@
         android:id="@+id/btn_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Accept"
+        android:text="@string/accept"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressbar" />
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title4" />
+
 
     <TextView
         android:id="@+id/tv_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 Nasi lemak"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_accept" />
 
@@ -80,7 +81,8 @@
         android:id="@+id/tv_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="protein"
+        android:text="@string/protein"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title1" />
 
@@ -88,7 +90,9 @@
         android:id="@+id/tv_title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 almond"
+        android:text="@string/almond"
+        android:textSize="15sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title2" />
 
@@ -96,7 +100,16 @@
         android:id="@+id/tv_title4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="more egg"
+        android:text="@string/more_egg"
+        android:textColor="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/tv_title3" />
+    <View
+        android:id="@+id/view1"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

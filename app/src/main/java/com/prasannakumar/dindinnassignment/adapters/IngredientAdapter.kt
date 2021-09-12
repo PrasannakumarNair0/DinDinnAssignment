@@ -7,14 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.prasannakumar.dindinnassignment.DynamicFragment
 import com.prasannakumar.dindinnassignment.R
 import com.prasannakumar.dindinnassignment.dataClass.ProductList
 
 
 class IngredientAdapter(ingredientList: ArrayList<ProductList>) :
     RecyclerView.Adapter<IngredientAdapter.ViewHolder>() {
-    private val TAG = "ABC"
 
     private var courseModalArrayList: ArrayList<ProductList>
 
@@ -35,7 +33,7 @@ class IngredientAdapter(ingredientList: ArrayList<ProductList>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model: ProductList = courseModalArrayList[position]
         holder.courseNameTV.text = model.productName
-        holder.courseDescTV.text = model.productID.toString()
+        holder.courseDescTV.text = model.productID
         Glide.with(holder.itemView)
             .load(model.image.replace("http", "https"))
             .centerCrop()

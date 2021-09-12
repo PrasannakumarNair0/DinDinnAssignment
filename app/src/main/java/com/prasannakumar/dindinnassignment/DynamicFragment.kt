@@ -1,61 +1,80 @@
 package com.prasannakumar.dindinnassignment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.prasannakumar.dindinnassignment.adapters.IngredientAdapter
 import com.prasannakumar.dindinnassignment.dataClass.Ingredient
 import com.prasannakumar.dindinnassignment.dataClass.ProductList
 import com.prasannakumar.dindinnassignment.databinding.FragmentDynamicLayoutBinding
+import com.prasannakumar.dindinnassignment.models.DynamicFragmentViewModel
 import com.prasannakumar.dindinnassignment.models.SearchViewModel
 import java.util.*
 
-const val POSITION="position"
+const val POSITION = "position"
+const val NOT_DATA_FOUND = "No Data Found.."
+const val TOTAL_COLUMN = 2
+
 class DynamicFragment : Fragment() {
     private var pos = 0
     private var users: List<Ingredient> = ArrayList()
     private lateinit var adapter: IngredientAdapter
     private lateinit var binding: FragmentDynamicLayoutBinding
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var dynamicViewModel: DynamicFragmentViewModel
+    private lateinit var snackBar: Snackbar
+    private lateinit var container: ViewGroup
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        if (container != null) {
+            this.container = container
+        }
         binding = FragmentDynamicLayoutBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+        setupViewModel()
+        searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         pos = requireArguments().getInt(POSITION, 0)
         binding.progressBar.visibility = View.GONE
         binding.albumList.visibility = View.VISIBLE
-        binding.albumList.layoutManager = GridLayoutManager(activity, 2)
-        adapter = IngredientAdapter(users.get(pos).productList as ArrayList<ProductList>)
+        binding.albumList.layoutManager = GridLayoutManager(activity, TOTAL_COLUMN)
+        adapter = IngredientAdapter(users[pos].productList as ArrayList<ProductList>)
         binding.albumList.adapter = adapter
 
         searchViewModel.getQuery()
             ?.observe(viewLifecycleOwner, {
                 it?.let { resource ->
-                    filter(resource)
+                    dynamicViewModel.filterValues(resource, users[pos].productList)
+
                 }
             })
 
+
     }
 
-    fun setList(users: List<Ingredient>) {
-        this.users = users
+    private fun setupViewModel() {
+        dynamicViewModel =
+            ViewModelProvider(requireActivity())[DynamicFragmentViewModel::class.java]
+        dynamicViewModel.getFilterValue().observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                filterCheck(resource)
+            }
+        })
     }
 
     companion object {
-        private const val TAG = "ABC"
         fun addFragment(pos: Int, users: List<Ingredient>): DynamicFragment {
             val fragment = DynamicFragment()
             val args = Bundle()
@@ -66,19 +85,22 @@ class DynamicFragment : Fragment() {
         }
     }
 
-    private fun filter(text: String?) {
-        val filterList = ArrayList<ProductList>()
-        for (item in users[pos].productList) {
-            if (item.productName.toLowerCase(Locale.ROOT).contains(text!!.toLowerCase(Locale.ROOT))) {
+    fun setList(users: List<Ingredient>) {
+        this.users = users
+    }
 
-                filterList.add(item);
-            }
-        }
+    private fun filterCheck(filterList: ArrayList<ProductList>) {
         if (filterList.isEmpty()) {
-            Toast.makeText(activity, "No Data Found..", Toast.LENGTH_SHORT).show();
-
+            val filterListCopy = ArrayList<ProductList>()
+            adapter.filterList(filterListCopy)
+            showSnackBar(NOT_DATA_FOUND)
         } else {
-            adapter.filterList(filterList);
+            adapter.filterList(filterList)
         }
+    }
+
+    private fun showSnackBar(data: String) {
+        snackBar = Snackbar.make(container, data, Snackbar.LENGTH_LONG)
+        snackBar.show()
     }
 }

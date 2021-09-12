@@ -2,4 +2,9 @@
     <string name="app_name">DinDinnAssignment</string>
     <string name="available">Available</string>
     <string name="hello_blank_fragment">hello</string>
+    <string name="accept">Accept</string>
+    <string name="auto_reject">Auto reject</string>
+    <string name="protein">protein</string>
+    <string name="almond">1 almond</string>
+    <string name="more_egg">more eggs</string>
 </resources>
