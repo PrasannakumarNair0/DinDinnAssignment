@@ -8,7 +8,7 @@ import android.widget.TextView
 private const val EXPIRED = "Expired"
 
 class CountdownRunnable() : Runnable {
-    private val DELAY = 1000
+    private val DELAY = 60000
     private var millisUntilFinished: Long = 600000
     private var holder: TextView? = null
     private var handler: Handler? = null
